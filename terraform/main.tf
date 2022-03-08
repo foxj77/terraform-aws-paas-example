@@ -16,4 +16,9 @@ provider "azurerm" {
 resource "azurerm_resource_group" "rg" {
   name     = "${var.customer}-${var.prefix}"
   location = var.location
+
+    tags = {
+    "environment"  = "client demo"
+    "productowner" = "JohnFox"
+  } 
 }

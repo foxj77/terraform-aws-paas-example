@@ -14,6 +14,6 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "cloudreach-johnfoxdemo"
-  location = "westus2"
+  name     = "${var.customer}-${var.prefix}"
+  location = var.location
 }

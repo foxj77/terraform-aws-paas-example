@@ -90,7 +90,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
 resource "azurerm_mysql_flexible_server" "example" {
   name                   = "example-fs"
   resource_group_name    = azurerm_resource_group.rg.name
-  location               = azurerm_resource_group.example.location
+  location               = azurerm_resource_group.rg.location
   administrator_login    = "psqladmin"
   administrator_password = "H@Sh1CoR3!"
   backup_retention_days  = 7

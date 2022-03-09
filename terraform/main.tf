@@ -100,7 +100,6 @@ resource "azurerm_mysql_flexible_server" "example" {
 
   high_availability {
     mode                      = "ZoneRedundant"
-    standby_availability_zone = "2"
   }
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.subnet4]

@@ -60,7 +60,7 @@ resource "azurerm_virtual_network" "example" {
 
 resource "azurerm_subnet" "subnet4" {
   name                 = "subnet4"
-  resource_group_name  = azurerm_resource_group.example.name
+  resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.4.0/24"]
   service_endpoints    = ["Microsoft.Storage"]
@@ -77,19 +77,19 @@ resource "azurerm_subnet" "subnet4" {
 
 resource "azurerm_private_dns_zone" "example" {
   name                = "example.mysql.database.azure.com"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   name                  = "exampleVnetZone.com"
   private_dns_zone_name = azurerm_private_dns_zone.example.name
   virtual_network_id    = azurerm_virtual_network.example.id
-  resource_group_name   = azurerm_resource_group.example.name
+  resource_group_name   = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_mysql_flexible_server" "example" {
   name                   = "example-fs"
-  resource_group_name    = azurerm_resource_group.example.name
+  resource_group_name    = azurerm_resource_group.rg.name
   location               = azurerm_resource_group.example.location
   administrator_login    = "psqladmin"
   administrator_password = "H@Sh1CoR3!"

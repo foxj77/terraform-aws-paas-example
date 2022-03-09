@@ -94,7 +94,7 @@ resource "azurerm_mysql_flexible_server" "example" {
   administrator_login    = "psqladmin"
   administrator_password = "H@Sh1CoR3!"
   backup_retention_days  = 7
-  delegated_subnet_id    = azurerm_subnet.example.id
+  delegated_subnet_id    = azurerm_subnet.subnet4.id
   private_dns_zone_id    = azurerm_private_dns_zone.example.id
   sku_name               = "GP_Standard_D2ds_v4"
 

@@ -96,7 +96,7 @@ resource "azurerm_mysql_flexible_server" "example" {
   backup_retention_days  = 7
   delegated_subnet_id    = azurerm_subnet.subnet4.id
   private_dns_zone_id    = azurerm_private_dns_zone.example.id
-  sku_name               = "GP_Gen4_2"
+  sku_name               = "GP_Standard_D2ds_v4"
 
   high_availability {
     mode                      = "ZoneRedundant"

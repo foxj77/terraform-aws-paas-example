@@ -80,7 +80,15 @@ resource "azurerm_mysql_server" "example" {
 }
 
 resource "azurerm_mysql_firewall_rule" "example" {
-  name                = "Azure Access"
+  name                = "AzureAccess"
+  resource_group_name = azurerm_resource_group.rg.name
+  server_name         = azurerm_mysql_server.example.name
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "0.0.0.0"
+}
+
+resource "azurerm_mysql_firewall_rule" "example" {
+  name                = "Middleware access"
   resource_group_name = azurerm_resource_group.rg.name
   server_name         = azurerm_mysql_server.example.name
   start_ip_address    = "0.0.0.0"

@@ -1,4 +1,4 @@
-prefix              = "demo"
-customer            = "cloudreach"
-location            = "ukwest"
+prefix   = "demo"
+customer = "cloudreach"
+location = "ukwest"
 

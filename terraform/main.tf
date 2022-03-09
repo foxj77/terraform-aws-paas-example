@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.1.0"
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "~> 2.65"
     }
   }
@@ -17,10 +17,10 @@ resource "azurerm_resource_group" "rg" {
   name     = "${var.customer}-${var.prefix}"
   location = var.location
 
-    tags = {
+  tags = {
     "environment"  = "client demo"
     "productowner" = "JohnFox"
-  } 
+  }
 }
 
 resource "azurerm_network_security_group" "example" {
@@ -97,6 +97,11 @@ resource "azurerm_mysql_flexible_server" "example" {
   delegated_subnet_id    = azurerm_subnet.subnet4.id
   private_dns_zone_id    = azurerm_private_dns_zone.example.id
   sku_name               = "GP_Standard_D2ds_v4"
+
+  high_availability {
+    mode                      = "ZoneRedundant"
+    standby_availability_zone = "2"
+  }
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.subnet4]
 }

@@ -65,7 +65,7 @@ resource "azurerm_lb_nat_rule" "backend" {
 }
 
 resource "azurerm_network_interface_nat_rule_association" "backend" {
-  network_interface_id  = azurerm_network_interface.backend.id
+  network_interface_id  = azurerm_network_interface.snapvideobackend.id
   ip_configuration_name = "backendConfiguration"
   nat_rule_id           = azurerm_lb_nat_rule.backend.id
 }

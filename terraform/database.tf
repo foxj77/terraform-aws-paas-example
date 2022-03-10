@@ -1,19 +1,3 @@
-resource "azurerm_mysql_firewall_rule" "snapvideo" {
-  name                = "azureAccess"
-  resource_group_name = azurerm_resource_group.rg.name
-  server_name         = azurerm_mysql_server.snapvideo.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
-}
-
-resource "azurerm_mysql_firewall_rule" "middleware" {
-  name                = "middlewareAccess"
-  resource_group_name = azurerm_resource_group.rg.name
-  server_name         = azurerm_mysql_server.snapvideo.name
-  start_ip_address    = "10.0.2.0"
-  end_ip_address      = "10.0.2.255"
-}
-
 resource "azurerm_mysql_flexible_server" "snapvideo" {
   name                   = "snapvideo-mysql"
   resource_group_name    = azurerm_resource_group.rg.name
@@ -32,4 +16,19 @@ resource "azurerm_mysql_flexible_server" "snapvideo" {
   depends_on = [azurerm_private_dns_zone_virtual_network_link.snapvideo, azurerm_subnet.database]
 }
 
+resource "azurerm_mysql_firewall_rule" "snapvideo" {
+  name                = "azureAccess"
+  resource_group_name = azurerm_resource_group.rg.name
+  server_name         = azurerm_mysql_flexible_server.snapvideo.name
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "0.0.0.0"
+}
+
+resource "azurerm_mysql_firewall_rule" "middleware" {
+  name                = "middlewareAccess"
+  resource_group_name = azurerm_resource_group.rg.name
+  server_name         = azurerm_mysql_flexible_server.snapvideo.name
+  start_ip_address    = "10.0.2.0"
+  end_ip_address      = "10.0.2.255"
+}
 

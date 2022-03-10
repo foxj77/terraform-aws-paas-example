@@ -41,3 +41,15 @@ resource "azurerm_subnet" "database" {
   }
   depends_on = [azurerm_virtual_network.snapvideo]
 }
+
+resource "azurerm_lb" "test" {
+  name                = "loadBalancer"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+
+  frontend_ip_configuration {
+    name               = "backendIP"
+    subnet_id          = azurerm_subnet.backend.id
+    private_ip_address = "10.0.2.240"
+  }
+}

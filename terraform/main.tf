@@ -98,20 +98,20 @@ resource "azurerm_virtual_network" "example" {
 }
 
 resource "azurerm_subnet" "web" {
-    name           = "webSubnet"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.example.name
-    address_prefixes = "10.0.1.0/24"
-    depends_on = [azurerm_virtual_network.example]
-    
+  name                 = "webSubnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.1.0/24"]
+  depends_on           = [azurerm_virtual_network.example]
+
 }
 
 resource "azurerm_subnet" "middle" {
-    name           = "middleSubnet"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.example.name
-    address_prefixes = "10.0.2.0/24"
-    depends_on = [azurerm_virtual_network.example]
+  name                 = "middleSubnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.2.0/24"]
+  depends_on           = [azurerm_virtual_network.example]
 }
 
 resource "azurerm_subnet" "database" {
@@ -161,7 +161,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   resource_group_name   = azurerm_resource_group.rg.name
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.database]
-  
+
 }
 
 resource "azurerm_mysql_flexible_server" "example" {
@@ -176,7 +176,7 @@ resource "azurerm_mysql_flexible_server" "example" {
   sku_name               = "GP_Standard_D2ds_v4"
 
   high_availability {
-    mode                      = "ZoneRedundant"
+    mode = "ZoneRedundant"
   }
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.database]

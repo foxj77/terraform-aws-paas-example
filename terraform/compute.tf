@@ -34,7 +34,7 @@ resource "azurerm_virtual_machine" "snapvideoweb" {
   tags = {
     environment = "staging"
   }
-  depends_on = [azurerm_network_interface.snapvideoweb]
+  depends_on = [azurerm_network_interface.snapvideoweb, azurerm_availability_set.backend]
 }
 
 resource "azurerm_network_interface" "snapvideoweb" {
@@ -85,7 +85,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   tags = {
     environment = "staging"
   }
-  depends_on = [azurerm_network_interface.snapvideobackend]
+  depends_on = [azurerm_network_interface.snapvideobackend, azurerm_availability_set.backend]
 }
 
 resource "azurerm_network_interface" "snapvideobackend" {
@@ -99,3 +99,22 @@ resource "azurerm_network_interface" "snapvideobackend" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
+ resource "azurerm_availability_set" "backend" {
+   name                         = "backend"
+   resource_group_name          = azurerm_resource_group.rg.name
+   location                     = azurerm_resource_group.rg.location
+   platform_fault_domain_count  = 3
+   platform_update_domain_count = 3
+   managed                      = true
+ }
+
+resource "azurerm_availability_set" "web" {
+   name                         = "web"
+   resource_group_name          = azurerm_resource_group.rg.name
+   location                     = azurerm_resource_group.rg.location
+   platform_fault_domain_count  = 3
+   platform_update_domain_count = 3
+   managed                      = true
+ }
+

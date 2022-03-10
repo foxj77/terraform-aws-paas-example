@@ -29,19 +29,20 @@ resource "azurerm_network_security_group" "web" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "test123"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+      name                       = "https"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "443"
+      source_address_prefix      = "*"
+      destination_address_prefix = "10.0.1.0/24"
   }
 
   tags = {
     environment = "Production"
+    purpose = "Web traffic to https"
   }
 }
 
@@ -51,19 +52,20 @@ resource "azurerm_network_security_group" "middle" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "test123"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+      name                       = "backend"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "8080"
+      source_address_prefix      = "10.0.1.0/24"
+      destination_address_prefix = "10.0.2.0/24"
   }
 
   tags = {
     environment = "Production"
+    purpose = "Web to backend"
   }
 }
 
@@ -73,19 +75,20 @@ resource "azurerm_network_security_group" "database" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "test123"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+      name                       = "mysql"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "3306"
+      source_address_prefix      = "10.0.2.0/24"
+      destination_address_prefix = "10.0.3.0/24"
   }
 
   tags = {
     environment = "Production"
+    purpose = "MySQL from backend"
   }
 }
 

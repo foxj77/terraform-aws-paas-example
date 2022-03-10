@@ -23,17 +23,20 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-resource "azurerm_private_dns_zone" "example" {
-  name                = "example.mysql.database.azure.com"
+
+
+
+resource "azurerm_private_dns_zone" "snapvideo" {
+  name                = "snapvideo.mysql.database.azure.com"
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "example" {
-  name                  = "exampleVnetZone.com"
-  private_dns_zone_name = azurerm_private_dns_zone.example.name
+resource "azurerm_private_dns_zone_virtual_network_link" "snapvideo" {
+  name                  = "snapvideoVnetZone.com"
+  private_dns_zone_name = azurerm_private_dns_zone.snapvideo.name
   virtual_network_id    = azurerm_virtual_network.snapvideo.id
   resource_group_name   = azurerm_resource_group.rg.name
 
-  depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.database]
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.snapvideo, azurerm_subnet.database]
 
 }

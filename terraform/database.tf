@@ -7,7 +7,7 @@ resource "azurerm_mysql_server" "snapvideo" {
   administrator_login_password = "H@Sh1CoR3!"
 
   sku_name   = "B_Gen5_2"
-  storage_mb = 512
+  storage_mb = 5120
   version    = "5.7"
 
   auto_grow_enabled                 = true

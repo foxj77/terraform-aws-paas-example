@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "web" {
-  name                = "example-security-group"
+  name                = "web-security-group"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 

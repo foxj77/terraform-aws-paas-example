@@ -34,6 +34,7 @@ resource "azurerm_virtual_machine" "snapvideoweb" {
   tags = {
     environment = "staging"
   }
+  depends_on = [azurerm_network_interface.snapvideoweb]
 }
 
 resource "azurerm_network_interface" "snapvideoweb" {
@@ -46,8 +47,6 @@ resource "azurerm_network_interface" "snapvideoweb" {
     subnet_id                     = azurerm_subnet.web.id
     private_ip_address_allocation = "Dynamic"
   }
-
-  depends_on = [azurerm_virtual_machine.snapvideoweb]
 }
 
 resource "azurerm_virtual_machine" "snapvideobackend" {
@@ -86,6 +85,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   tags = {
     environment = "staging"
   }
+  depends_on = [azurerm_network_interface.snapvideobackend]
 }
 
 resource "azurerm_network_interface" "snapvideobackend" {
@@ -98,6 +98,4 @@ resource "azurerm_network_interface" "snapvideobackend" {
     subnet_id                     = azurerm_subnet.backend.id
     private_ip_address_allocation = "Dynamic"
   }
-  
-  depends_on = [azurerm_virtual_machine.snapvideobackend]
 }

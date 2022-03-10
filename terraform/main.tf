@@ -23,10 +23,70 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-resource "azurerm_network_security_group" "example" {
+resource "azurerm_network_security_group" "web" {
   name                = "example-security-group"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "test123"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  tags = {
+    environment = "Production"
+  }
+}
+
+resource "azurerm_network_security_group" "middle" {
+  name                = "middle-security-group"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "test123"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  tags = {
+    environment = "Production"
+  }
+}
+
+resource "azurerm_network_security_group" "database" {
+  name                = "database-security-group"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "test123"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  tags = {
+    environment = "Production"
+  }
 }
 
 resource "azurerm_virtual_network" "example" {
@@ -40,13 +100,20 @@ resource "azurerm_virtual_network" "example" {
     name           = "webSubnet"
     address_prefix = "10.0.1.0/24"
   }
+}
 
-  subnet {
+resource "azurerm_subnet" "web" {
+    name           = "webSubnet"
+    address_prefix = "10.0.1.0/24"
+    security_group = azurerm_network_security_group.example.id
+}
+
+resource "azurerm_subnet" "middle" {
     name           = "middleSubnet"
     address_prefix = "10.0.2.0/24"
     security_group = azurerm_network_security_group.example.id
-  }
 }
+
 
 resource "azurerm_subnet" "subnet4" {
   name                 = "databaseSubnet"
@@ -64,6 +131,23 @@ resource "azurerm_subnet" "subnet4" {
     }
   }
 }
+
+resource "azurerm_subnet_network_security_group_association" "web" {
+  subnet_id                 = azurerm_subnet.example.id
+  network_security_group_id = azurerm_network_security_group.web.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "middle" {
+  subnet_id                 = azurerm_subnet.example.id
+  network_security_group_id = azurerm_network_security_group.middle.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "database" {
+  subnet_id                 = azurerm_subnet.subnet4.id
+  network_security_group_id = azurerm_network_security_group.example.id
+}
+
+
 
 resource "azurerm_private_dns_zone" "example" {
   name                = "example.mysql.database.azure.com"

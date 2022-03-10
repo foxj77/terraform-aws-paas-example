@@ -37,41 +37,35 @@ resource "azurerm_virtual_network" "example" {
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
 
   subnet {
-    name           = "subnet1"
+    name           = "webSubnet"
     address_prefix = "10.0.1.0/24"
   }
 
   subnet {
-    name           = "subnet2"
+    name           = "middlewareSubnet"
     address_prefix = "10.0.2.0/24"
     security_group = azurerm_network_security_group.example.id
   }
 
   subnet {
-    name           = "subnet3"
-    address_prefix = "10.0.3.0/24"
-    security_group = azurerm_network_security_group.example.id
+    name                 = "databaseSubnet"
+    resource_group_name  = azurerm_resource_group.rg.name
+    virtual_network_name = azurerm_virtual_network.example.name
+    address_prefixes     = ["10.0.4.0/24"]
+    service_endpoints    = ["Microsoft.Storage"]
+    delegation {
+      name = "fs"
+      service_delegation {
+        name = "Microsoft.DBforMySQL/flexibleServers"
+        actions = [
+          "Microsoft.Network/virtualNetworks/subnets/join/action",
+        ]
+      }
+    }
   }
 
   tags = {
     environment = "Production"
-  }
-}
-
-resource "azurerm_subnet" "subnet4" {
-  name                 = "subnet4"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.4.0/24"]
-  service_endpoints    = ["Microsoft.Storage"]
-  delegation {
-    name = "fs"
-    service_delegation {
-      name = "Microsoft.DBforMySQL/flexibleServers"
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action",
-      ]
-    }
   }
 }
 
@@ -87,7 +81,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   resource_group_name   = azurerm_resource_group.rg.name
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.subnet4]
-  
+
 }
 
 resource "azurerm_mysql_flexible_server" "example" {
@@ -102,7 +96,7 @@ resource "azurerm_mysql_flexible_server" "example" {
   sku_name               = "GP_Standard_D2ds_v4"
 
   high_availability {
-    mode                      = "ZoneRedundant"
+    mode = "ZoneRedundant"
   }
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.subnet4]

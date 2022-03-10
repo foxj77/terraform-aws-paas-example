@@ -42,10 +42,10 @@ resource "azurerm_subnet" "database" {
   depends_on = [azurerm_virtual_network.snapvideo]
 }
 
-resource "azurerm_lb" "test" {
+resource "azurerm_lb" "backend" {
   name                = "loadBalancer"
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   frontend_ip_configuration {
     name               = "backendIP"

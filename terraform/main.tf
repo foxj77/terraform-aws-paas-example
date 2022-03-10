@@ -85,6 +85,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   private_dns_zone_name = azurerm_private_dns_zone.example.name
   virtual_network_id    = azurerm_virtual_network.example.id
   resource_group_name   = azurerm_resource_group.rg.name
+
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.example, azurerm_subnet.subnet4]
+  
 }
 
 resource "azurerm_mysql_flexible_server" "example" {

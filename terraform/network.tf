@@ -53,3 +53,19 @@ resource "azurerm_lb" "backend" {
     private_ip_address = "10.0.2.240"
   }
 }
+
+resource "azurerm_lb_nat_rule" "backend" {
+  resource_group_name            = azurerm_resource_group.rg.name
+  loadbalancer_id                = azurerm_lb.backend.id
+  name                           = "backendAccess"
+  protocol                       = "Tcp"
+  frontend_port                  = 8080
+  backend_port                   = 8080
+  frontend_ip_configuration_name = "backendIP"
+}
+
+resource "azurerm_network_interface_nat_rule_association" "backend" {
+  network_interface_id  = azurerm_network_interface.backend.id
+  ip_configuration_name = "backendConfiguration"
+  nat_rule_id           = azurerm_lb_nat_rule.backend.id
+}

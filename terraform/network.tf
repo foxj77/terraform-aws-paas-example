@@ -79,13 +79,13 @@ resource "azurerm_public_ip" "web" {
 }
 
 locals {
-  backend_address_pool_name      = "${azurerm_virtual_network.rg.name}-beap"
-  frontend_port_name             = "${azurerm_virtual_network.rg.name}-feport"
-  frontend_ip_configuration_name = "${azurerm_virtual_network.rg.name}-feip"
-  http_setting_name              = "${azurerm_virtual_network.rg.name}-be-htst"
-  listener_name                  = "${azurerm_virtual_network.rg.name}-httplstn"
-  request_routing_rule_name      = "${azurerm_virtual_network.rg.name}-rqrt"
-  redirect_configuration_name    = "${azurerm_virtual_network.rg.name}-rdrcfg"
+  backend_address_pool_name      = "${azurerm_virtual_network.snapvideo.name}-beap"
+  frontend_port_name             = "${azurerm_virtual_network.snapvideo.name}-feport"
+  frontend_ip_configuration_name = "${azurerm_virtual_network.snapvideo.name}-feip"
+  http_setting_name              = "${azurerm_virtual_network.snapvideo.name}-be-htst"
+  listener_name                  = "${azurerm_virtual_network.snapvideo.name}-httplstn"
+  request_routing_rule_name      = "${azurerm_virtual_network.snapvideo.name}-rqrt"
+  redirect_configuration_name    = "${azurerm_virtual_network.snapvideo.name}-rdrcfg"
 }
 
 resource "azurerm_application_gateway" "network" {

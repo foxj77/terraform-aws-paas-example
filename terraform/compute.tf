@@ -1,5 +1,5 @@
 resource "azurerm_windows_virtual_machine_scale_set" "example" {
-  name                = "example-vmss"
+  name                = "sv-vmss"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku                 = "Standard_F2"
@@ -20,7 +20,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
   }
 
   network_interface {
-    name    = "example"
+    name    = "web"
     primary = true
 
     ip_configuration {

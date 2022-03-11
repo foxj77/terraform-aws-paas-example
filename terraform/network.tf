@@ -42,6 +42,15 @@ resource "azurerm_subnet" "database" {
   depends_on = [azurerm_virtual_network.snapvideo]
 }
 
+resource "azurerm_subnet" "aag" {
+  name                 = "aagSubnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.snapvideo.name
+  address_prefixes     = ["10.0.4.0/24"]
+  depends_on           = [azurerm_virtual_network.snapvideo]
+
+}
+
 resource "azurerm_lb" "backend" {
   name                = "backendLoadBalancer"
   location            = azurerm_resource_group.rg.location
@@ -101,7 +110,7 @@ resource "azurerm_application_gateway" "network" {
 
   gateway_ip_configuration {
     name      = "my-gateway-ip-configuration"
-    subnet_id = azurerm_subnet.web.id
+    subnet_id = azurerm_subnet.aag.id
   }
 
   frontend_port {

@@ -6,7 +6,8 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
   instances           = 1
   admin_password      = azurerm_key_vault_secret.webpassword.value
   admin_username      = "adminuser"
-
+  encryption_at_host_enabled = true
+  
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
@@ -30,10 +31,12 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
     }
   }
   depends_on = [azurerm_key_vault.kv]
+  
 }
 
+
 resource "azurerm_virtual_machine" "snapvideobackend" {
-  name                  = "snapvideoBackendVm"
+  name                  = "vm-backend-${var.customer}-${terraform.workspace}-${var.location}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.snapvideobackend.id]

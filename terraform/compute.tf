@@ -4,7 +4,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
   location            = azurerm_resource_group.rg.location
   sku                 = "Standard_F2"
   instances           = 1
-  admin_password      = "P@55w0rd1234!"
+  admin_password      = azurerm_key_vault_secret.webpassword.value
   admin_username      = "adminuser"
 
   source_image_reference {
@@ -60,7 +60,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   os_profile {
     computer_name  = "hostname"
     admin_username = "testadmin"
-    admin_password = "Password1234!"
+    admin_password = azurerm_key_vault_secret.backendpassword.value
   }
   os_profile_linux_config {
     disable_password_authentication = false

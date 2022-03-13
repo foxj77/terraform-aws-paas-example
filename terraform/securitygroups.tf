@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "web" {
-  name                = "web-security-group"
+  name                = "sg-web-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -22,7 +22,7 @@ resource "azurerm_network_security_group" "web" {
 }
 
 resource "azurerm_network_security_group" "backend" {
-  name                = "backend-security-group"
+  name                = "sg-backend-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -45,7 +45,7 @@ resource "azurerm_network_security_group" "backend" {
 }
 
 resource "azurerm_network_security_group" "database" {
-  name                = "database-security-group"
+  name                = "sg-database-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 

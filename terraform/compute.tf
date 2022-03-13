@@ -1,12 +1,11 @@
 resource "azurerm_windows_virtual_machine_scale_set" "example" {
-  name                = "sv-vmss"
+  name                = "vmss-web-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku                 = "Standard_F2"
   instances           = 1
   admin_password      = azurerm_key_vault_secret.webpassword.value
   admin_username      = "adminuser"
-  encryption_at_host_enabled = true
   
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
@@ -76,7 +75,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
 }
 
 resource "azurerm_network_interface" "snapvideobackend" {
-  name                = "snapvideobackend-nic"
+  name                = "nic-backend-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -88,7 +87,7 @@ resource "azurerm_network_interface" "snapvideobackend" {
 }
 
 resource "azurerm_availability_set" "backend" {
-  name                         = "backend"
+  name                         = "as-backend-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   platform_fault_domain_count  = 3

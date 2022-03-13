@@ -14,7 +14,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.customer}-${var.prefix}"
+  name     = "rg-${var.customer}-${terraform.workspace}-${var.location}"
   location = var.location
 
   tags = {

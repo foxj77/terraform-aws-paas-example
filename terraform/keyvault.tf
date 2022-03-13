@@ -17,14 +17,14 @@ resource "azurerm_key_vault" "kv" {
 
     key_permissions = [
       "Get",
-          "list",
-          "create",
+      "list",
+      "create",
     ]
 
     secret_permissions = [
       "Get",
-          "list",
-          "set",
+      "list",
+      "set",
     ]
 
     storage_permissions = [
@@ -35,7 +35,7 @@ resource "azurerm_key_vault" "kv" {
 
 #Create KeyVault VM password
 resource "random_password" "webpassword" {
-  length = 20
+  length  = 20
   special = true
 }
 #Create Key Vault Secret
@@ -43,12 +43,12 @@ resource "azurerm_key_vault_secret" "webpassword" {
   name         = "webPassword"
   value        = random_password.webpassword.result
   key_vault_id = azurerm_key_vault.kv.id
-  depends_on = [ azurerm_key_vault.kv ]
+  depends_on   = [azurerm_key_vault.kv]
 }
 
 #Create KeyVault VM password
 resource "random_password" "backendpassword" {
-  length = 20
+  length  = 20
   special = true
 }
 #Create Key Vault Secret
@@ -56,12 +56,12 @@ resource "azurerm_key_vault_secret" "backendpassword" {
   name         = "backendPassword"
   value        = random_password.backendpassword.result
   key_vault_id = azurerm_key_vault.kv.id
-  depends_on = [ azurerm_key_vault.kv ]
+  depends_on   = [azurerm_key_vault.kv]
 }
 
 #Create KeyVault VM password
 resource "random_password" "databasepassword" {
-  length = 20
+  length  = 20
   special = true
 }
 #Create Key Vault Secret
@@ -69,5 +69,5 @@ resource "azurerm_key_vault_secret" "databasepassword" {
   name         = "databasePassword"
   value        = random_password.databasepassword.result
   key_vault_id = azurerm_key_vault.kv.id
-  depends_on = [ azurerm_key_vault.kv ]
+  depends_on   = [azurerm_key_vault.kv]
 }

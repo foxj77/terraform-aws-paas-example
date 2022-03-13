@@ -29,6 +29,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
       subnet_id = azurerm_subnet.web.id
     }
   }
+  depends_on = [azurerm_key_vault.kv]
 }
 
 resource "azurerm_virtual_machine" "snapvideobackend" {
@@ -37,7 +38,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.snapvideobackend.id]
   vm_size               = "Standard_B2ms"
-  availability_set_id   =  azurerm_availability_set.backend.id
+  availability_set_id   = azurerm_availability_set.backend.id
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   delete_os_disk_on_termination = true
@@ -68,7 +69,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   tags = {
     environment = "staging"
   }
-  depends_on = [azurerm_network_interface.snapvideobackend, azurerm_availability_set.backend]
+  depends_on = [azurerm_network_interface.snapvideobackend, azurerm_availability_set.backend, azurerm_key_vault.kv]
 }
 
 resource "azurerm_network_interface" "snapvideobackend" {

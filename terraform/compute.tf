@@ -55,7 +55,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1Backend"
+    name              = "disk-osBackend-${var.customer}-${terraform.workspace}-${var.location}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"

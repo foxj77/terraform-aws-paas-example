@@ -5,3 +5,7 @@ variable "location" {
 variable "customer" {
   description = "Customer name, used for naming of resources"
 }
+
+variable "prefix" {
+  description = "environment"
+}

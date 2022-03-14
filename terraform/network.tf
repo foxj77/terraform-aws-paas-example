@@ -78,6 +78,12 @@ resource "azurerm_lb_nat_rule" "backend" {
   frontend_ip_configuration_name = "beip-${var.customer}-${terraform.workspace}-${var.location}"
 }
 
+resource "azurerm_lb_backend_address_pool_address" "backend" {
+  name                    = "backend VM pool"
+  virtual_network_id      = azurerm_virtual_network.snapvideo.id
+  ip_address              = "10.0.2.5"
+}
+
 resource "azurerm_network_interface_nat_rule_association" "backend" {
   network_interface_id  = azurerm_network_interface.snapvideobackend.id
   ip_configuration_name = "internal"

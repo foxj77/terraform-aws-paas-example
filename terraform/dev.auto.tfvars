@@ -1,4 +1,4 @@
 prefix   = "johnfoxdemo"
 customer = "snapvideo"
-location = "germanynorth"
+location = "westeurope"
 

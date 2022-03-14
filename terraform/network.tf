@@ -7,6 +7,14 @@ resource "azurerm_virtual_network" "snapvideo" {
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
 }
 
+resource "azurerm_subnet" "aag" {
+  name                 = "aagSubnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.snapvideo.name
+  address_prefixes     = ["10.0.0.0/24"]
+  depends_on           = [azurerm_virtual_network.snapvideo]
+}
+
 resource "azurerm_subnet" "web" {
   name                 = "webSubnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -40,15 +48,6 @@ resource "azurerm_subnet" "database" {
     }
   }
   depends_on = [azurerm_virtual_network.snapvideo]
-}
-
-resource "azurerm_subnet" "aag" {
-  name                 = "aagSubnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.snapvideo.name
-  address_prefixes     = ["10.0.4.0/24"]
-  depends_on           = [azurerm_virtual_network.snapvideo]
-
 }
 
 resource "azurerm_lb" "backend" {

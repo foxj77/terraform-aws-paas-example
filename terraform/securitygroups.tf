@@ -16,8 +16,7 @@ resource "azurerm_network_security_group" "web" {
   }
 
   tags = {
-    environment = "Production"
-    purpose     = "Web traffic to https"
+    "purpose"     = "Web traffic to https"
   }
 }
 
@@ -39,7 +38,6 @@ resource "azurerm_network_security_group" "backend" {
   }
 
   tags = {
-    environment = "Production"
     purpose     = "Web to backend"
   }
 }
@@ -62,7 +60,6 @@ resource "azurerm_network_security_group" "database" {
   }
 
   tags = {
-    environment = "Production"
     purpose     = "MySQL from backend"
   }
 }

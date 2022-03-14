@@ -29,8 +29,14 @@ resource "azurerm_windows_virtual_machine_scale_set" "web" {
       subnet_id = azurerm_subnet.web.id
     }
   }
+
+tags = {
+    "environment"  = "client demo"
+    "productowner" = "JohnFox"
+    "deployedBy"   = "terraformCloud"
+  }
+
   depends_on = [azurerm_key_vault.kv]
-  
 }
 
 
@@ -68,9 +74,13 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   os_profile_linux_config {
     disable_password_authentication = false
   }
-  tags = {
-    environment = "staging"
+
+tags = {
+    "environment"  = "client demo"
+    "productowner" = "JohnFox"
+    "deployedBy"   = "terraformCloud"
   }
+
   depends_on = [azurerm_network_interface.snapvideobackend, azurerm_availability_set.backend, azurerm_key_vault.kv]
 }
 

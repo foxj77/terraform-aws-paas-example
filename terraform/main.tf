@@ -20,6 +20,7 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     "environment"  = "client demo"
     "productowner" = "JohnFox"
+    "deployedBy"   = "terraformCloud"
   }
 }
 

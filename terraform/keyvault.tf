@@ -31,6 +31,11 @@ resource "azurerm_key_vault" "kv" {
       "Get",
     ]
   }
+  tags = {
+    "environment"  = "client demo"
+    "productowner" = "JohnFox"
+    "deployedBy"   = "terraformCloud"
+  }
 }
 
 #Create KeyVault VM password

@@ -1,4 +1,4 @@
 prefix   = "johnfoxdemo"
-customer = "cloudreach"
-location = "eastus"
+customer = "snapvideo"
+location = "francecentral"
 

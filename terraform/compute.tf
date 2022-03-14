@@ -2,7 +2,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "web" {
   name                = "vmss-web"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  sku                 = "Standard_D1_v2"
+  sku                 = "Standard_D4_v2"
   instances           = 1
   admin_password      = azurerm_key_vault_secret.webpassword.value
   admin_username      = "adminuser"
@@ -39,7 +39,7 @@ resource "azurerm_virtual_machine" "snapvideobackend" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.snapvideobackend.id]
-  vm_size               = "Standard_D1_v2"
+  vm_size               = "Standard_D4_v2"
   availability_set_id   = azurerm_availability_set.backend.id
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM

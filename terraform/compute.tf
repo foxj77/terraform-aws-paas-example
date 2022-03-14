@@ -35,11 +35,11 @@ resource "azurerm_windows_virtual_machine_scale_set" "web" {
 
 
 resource "azurerm_virtual_machine" "snapvideobackend" {
-  name                  = "vm-backend-${var.customer}-${terraform.workspace}-${var.location}"
+  name                  = "vm-backend"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.snapvideobackend.id]
-  vm_size               = "Standard_B2ms"
+  vm_size               = "Standard_D1_v2"
   availability_set_id   = azurerm_availability_set.backend.id
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM

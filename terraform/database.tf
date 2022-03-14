@@ -2,7 +2,7 @@ resource "azurerm_mysql_flexible_server" "snapvideo" {
   name                   = "mysql-flexibleserver-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name    = azurerm_resource_group.rg.name
   location               = azurerm_resource_group.rg.location
-  administrator_login    = "snapvideoMysqladmin"
+  administrator_login    = "${var.customer}Mysqladmin"
   administrator_password = azurerm_key_vault_secret.databasepassword.value
   backup_retention_days  = 7
   delegated_subnet_id    = azurerm_subnet.database.id

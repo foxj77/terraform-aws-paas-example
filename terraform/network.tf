@@ -75,7 +75,7 @@ resource "azurerm_lb_nat_rule" "backend" {
   protocol                       = "Tcp"
   frontend_port                  = 8080
   backend_port                   = 8080
-  frontend_ip_configuration_name = "backendIP"
+  frontend_ip_configuration_name = "beip-${var.customer}-${terraform.workspace}-${var.location}"
 }
 
 resource "azurerm_network_interface_nat_rule_association" "backend" {

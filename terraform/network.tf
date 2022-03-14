@@ -1,6 +1,6 @@
 
 resource "azurerm_virtual_network" "snapvideo" {
-  name                = "snapvideoNetwork"
+  name                = "vnet-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = ["10.0.0.0/16"]
@@ -8,7 +8,7 @@ resource "azurerm_virtual_network" "snapvideo" {
 }
 
 resource "azurerm_subnet" "aag" {
-  name                 = "aagSubnet"
+  name                 = "subnet-aag-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.snapvideo.name
   address_prefixes     = ["10.0.0.0/24"]
@@ -16,7 +16,7 @@ resource "azurerm_subnet" "aag" {
 }
 
 resource "azurerm_subnet" "web" {
-  name                 = "webSubnet"
+  name                 = "subnet-web-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.snapvideo.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "web" {
 }
 
 resource "azurerm_subnet" "backend" {
-  name                 = "backendSubnet"
+  name                 = "subnet-backend-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.snapvideo.name
   address_prefixes     = ["10.0.2.0/24"]
@@ -33,7 +33,7 @@ resource "azurerm_subnet" "backend" {
 }
 
 resource "azurerm_subnet" "database" {
-  name                 = "databaseSubnet"
+  name                 = "subnet-database-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.snapvideo.name
   address_prefixes     = ["10.0.3.0/24"]
@@ -51,12 +51,12 @@ resource "azurerm_subnet" "database" {
 }
 
 resource "azurerm_lb" "backend" {
-  name                = "backendLoadBalancer"
+  name                = "belb-${var.customer}-${terraform.workspace}-${var.location}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   frontend_ip_configuration {
-    name               = "backendIP"
+    name               = "beip-${var.customer}-${terraform.workspace}-${var.location}"
     subnet_id          = azurerm_subnet.backend.id
     private_ip_address = "10.0.2.240"
   }
@@ -65,7 +65,7 @@ resource "azurerm_lb" "backend" {
 resource "azurerm_lb_nat_rule" "backend" {
   resource_group_name            = azurerm_resource_group.rg.name
   loadbalancer_id                = azurerm_lb.backend.id
-  name                           = "backendAccess"
+  name                           = "belbrule-${var.customer}-${terraform.workspace}-${var.location}"
   protocol                       = "Tcp"
   frontend_port                  = 8080
   backend_port                   = 8080
@@ -80,7 +80,7 @@ resource "azurerm_network_interface_nat_rule_association" "backend" {
 
 
 resource "azurerm_public_ip" "web" {
-  name                = "webIp"
+  name                = "ip-web-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   allocation_method   = "Dynamic"
@@ -100,7 +100,7 @@ resource "azurerm_application_gateway" "network" {
   name                = "aag-${var.customer}-${terraform.workspace}-${var.location}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-
+  
   sku {
     name     = "Standard_Small"
     tier     = "Standard"
@@ -108,7 +108,7 @@ resource "azurerm_application_gateway" "network" {
   }
 
   gateway_ip_configuration {
-    name      = "my-gateway-ip-configuration"
+    name      = "gateway-ipconfig-${var.customer}-${terraform.workspace}-${var.location}"
     subnet_id = azurerm_subnet.aag.id
   }
 

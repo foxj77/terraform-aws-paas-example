@@ -2,7 +2,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "web" {
   name                = "vmss-web"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  sku                 = "Standard_F2"
+  sku                 = "Standard_D1_v2"
   instances           = 1
   admin_password      = azurerm_key_vault_secret.webpassword.value
   admin_username      = "adminuser"
